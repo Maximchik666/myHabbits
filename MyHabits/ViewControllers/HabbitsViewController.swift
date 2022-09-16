@@ -20,6 +20,7 @@ class HabbitsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navBarCustomization()
+        
     }
     
     
@@ -34,11 +35,13 @@ class HabbitsViewController: UIViewController {
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         self.navigationItem.title = "Сегодня"
+        
     }
     
     @objc private func didTapButton() {
-        let vc = InfoViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        
+        let newAwesomeNavigationBar = UINavigationController(rootViewController: HabbitViewController())
+        present(newAwesomeNavigationBar, animated: true)
     }
     
 }

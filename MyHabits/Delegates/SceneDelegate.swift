@@ -20,16 +20,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let tabBarController = UITabBarController()
         
-        feedTabNavigationController = UINavigationController.init(rootViewController: HabbitsViewController())
-        profileTabNavigationController = UINavigationController.init(rootViewController: InfoViewController())
+        let habbitsTabNavigationController = UINavigationController.init(rootViewController: HabbitsViewController())
+        let infoTabNavigationController = UINavigationController.init(rootViewController: InfoViewController())
         
-        tabBarController.viewControllers = [feedTabNavigationController, profileTabNavigationController]
+        habbitsTabNavigationController.modalPresentationStyle = .fullScreen
+        
+        tabBarController.viewControllers = [habbitsTabNavigationController, infoTabNavigationController]
         
         let item1 = UITabBarItem(title: "Привычки", image: UIImage(systemName: "tray.full.fill"), tag: 0)
         let item2 = UITabBarItem(title: "Информация", image: UIImage(systemName: "info.circle.fill"), tag: 1)
         
-        feedTabNavigationController.tabBarItem = item1
-        profileTabNavigationController.tabBarItem = item2
+        habbitsTabNavigationController.tabBarItem = item1
+        infoTabNavigationController.tabBarItem = item2
         
         UITabBar.appearance().tintColor = UIColor(named: "Purple")
         UITabBar.appearance().backgroundColor = .white

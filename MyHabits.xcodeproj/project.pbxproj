@@ -14,6 +14,7 @@
 		9999392028B514DE00FF7B2C /* HabitsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9999391F28B514DE00FF7B2C /* HabitsStore.swift */; };
 		9999392328B6588F00FF7B2C /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9999392228B6588F00FF7B2C /* InfoViewController.swift */; };
 		9999392728B6595E00FF7B2C /* HabbitsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9999392628B6595E00FF7B2C /* HabbitsViewController.swift */; };
+		99A2DF7B28D34F960080F705 /* HabbitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99A2DF7A28D34F960080F705 /* HabbitViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		9999391F28B514DE00FF7B2C /* HabitsStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HabitsStore.swift; sourceTree = "<group>"; };
 		9999392228B6588F00FF7B2C /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		9999392628B6595E00FF7B2C /* HabbitsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabbitsViewController.swift; sourceTree = "<group>"; };
+		99A2DF7A28D34F960080F705 /* HabbitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabbitViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +84,7 @@
 			children = (
 				9999392628B6595E00FF7B2C /* HabbitsViewController.swift */,
 				9999392228B6588F00FF7B2C /* InfoViewController.swift */,
+				99A2DF7A28D34F960080F705 /* HabbitViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -166,6 +169,7 @@
 			files = (
 				9999392728B6595E00FF7B2C /* HabbitsViewController.swift in Sources */,
 				9999392028B514DE00FF7B2C /* HabitsStore.swift in Sources */,
+				99A2DF7B28D34F960080F705 /* HabbitViewController.swift in Sources */,
 				992C1F8728B5137100305FA8 /* AppDelegate.swift in Sources */,
 				992C1F8928B5137100305FA8 /* SceneDelegate.swift in Sources */,
 				9999392328B6588F00FF7B2C /* InfoViewController.swift in Sources */,
