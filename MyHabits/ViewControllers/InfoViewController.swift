@@ -83,7 +83,8 @@ class InfoViewController: UIViewController {
             text.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
         ])
     }
-    
+   
+    /// Настройка NavigationBar'a.
     func navBarCustomization () {
         // self.navigationController?.navigationBar.prefersLargeTitles = true
         let appearance = UINavigationBarAppearance()
