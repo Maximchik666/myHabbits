@@ -11,6 +11,7 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
     
     var habitIndex: Int = 0
     var calledForEditing = false
+    let alertController = UIAlertController(title: "Удалить привычку", message: "Вы хотите удалить привычку?", preferredStyle: .alert)
     
     ///  Заголовок "Название" , над полем ввода названия привычки
     private lazy var nameLabel: UILabel = {
@@ -49,7 +50,7 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
         let button = UIButton()
         button.layer.cornerRadius = 15
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .green
+        button.backgroundColor = .systemRed
         button.addTarget(self, action: #selector(didTapColorPicker), for: .touchUpInside)
         return button
     }()
@@ -113,10 +114,7 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        print("\(self.name) 1")
         setupIfCalledForEditing()
-        print("номер переданного индекса \(habitIndex)")
-        print("Состояние флага редактирования \(calledForEditing)")
         view.addSubview(nameLabel)
         view.addSubview(nameTextField)
         view.addSubview(colorLabel)
@@ -202,26 +200,24 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
         ])
     }
     
-    
     private func setupIfCalledForEditing () {
       
         if calledForEditing {
-            print("calledForEditing")
             nameLabel.textColor = HabitsStore.shared.habits[habitIndex].color
             nameLabel.text = HabitsStore.shared.habits[habitIndex].name
             colorPicker.backgroundColor = HabitsStore.shared.habits[habitIndex].color
-            timePickerLabel.text = HabitsStore.shared.habits[habitIndex].dateString
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "hh:mm a"
+            timePickerLabel.text = "\(dateFormatter.string(from: HabitsStore.shared.habits[habitIndex].date))"
             
             self.name = HabitsStore.shared.habits[habitIndex].name
             self.date = HabitsStore.shared.habits[habitIndex].date
             self.color = HabitsStore.shared.habits[habitIndex].color
             
             self.deleteHabbitButton.isHidden = false
-            
-            print("\(self.name) 2")
         }
     }
-    
     
     ///  Функция, устанавливающая выбранное в DatePicker'e время, в качестве текста, изменяемой части загловка о выборе времени для привычки.
     @objc private func didSelect() {
@@ -265,14 +261,20 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
             HabitsStore.shared.habits[habitIndex].color = self.color
             print("\(self.name) 3")
         } else {
+            
             let newHabit = Habit(name: self.name,
                                  date: self.date,
                                  color: self.color)
+            
             let store = HabitsStore.shared
             store.habits.append(newHabit)
         }
+        
         calledForEditing = false
-        print("Итоговое имя которое передается в хранилище привычек: \(HabitsStore.shared.habits[habitIndex].name)")
+        HabitsStore.shared.save()
+        
+        NotificationCenter.default.post(name: Notification.Name("reloadData"), object: nil)
+        NotificationCenter.default.post(name: Notification.Name("hideDetailView"), object: nil)
         dismiss(animated: true, completion: nil)
     }
     
@@ -285,7 +287,15 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
     }
     
     @objc func deleteHabbit () {
-        HabitsStore.shared.habits.remove(at: habitIndex)
-        self.dismiss(animated: true)
+        alertController.addAction(UIAlertAction(title: "Отмена", style: .default, handler: { _ in
+        }))
+        alertController.addAction(UIAlertAction(title: "Удалить", style: .default, handler: { _ in
+            HabitsStore.shared.habits.remove(at: self.habitIndex)
+            NotificationCenter.default.post(name: Notification.Name("reloadData"), object: nil)
+            NotificationCenter.default.post(name: Notification.Name("hideDetailView"), object: nil)
+            self.navigationController?.pushViewController(HabitsViewController(), animated: true)
+        }))
+        
+        self.present(alertController, animated: true, completion: nil)
     }
 }

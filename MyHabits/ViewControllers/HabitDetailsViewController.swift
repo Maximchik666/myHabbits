@@ -39,8 +39,13 @@ class HabitDetailsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(hideDetailView(notification:)),
+                                               name: Notification.Name("hideDetailView"),
+                                               object: nil)
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Править", style: .plain, target: self, action: #selector(editHabit))
+        
     }
     
     
@@ -50,7 +55,13 @@ class HabitDetailsViewController: UIViewController {
         VC.calledForEditing = true
         let newAwesomeNavigationBar = UINavigationController(rootViewController: VC)
         present(newAwesomeNavigationBar, animated: true)
+        }
+    
+    @objc func hideDetailView(notification: Notification ){
+        navigationController?.pushViewController(HabitsViewController(), animated: true)
+        NotificationCenter.default.removeObserver(self)
     }
+    
 }
 
 extension HabitDetailsViewController: UITableViewDelegate, UITableViewDataSource {
@@ -71,9 +82,14 @@ extension HabitDetailsViewController: UITableViewDelegate, UITableViewDataSource
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Standart Cell", for: indexPath)
         cell.backgroundColor = .white
-        
         let text = HabitsStore.shared.trackDateString(forIndex: indexPath.row)
         cell.textLabel?.text = text
+        
+        if HabitsStore.shared.habit(HabitsStore.shared.habits[detailHabitIndex], isTrackedIn: HabitsStore.shared.dates[indexPath.row]) {
+            let img = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 15))
+            img.image = UIImage(systemName: "checkmark")
+            cell.accessoryView = img
+        }
         
         return cell
     }

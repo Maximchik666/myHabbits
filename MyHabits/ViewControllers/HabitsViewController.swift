@@ -5,7 +5,6 @@
 //  Created by Maksim Kruglov on 24.08.2022.
 //
 
-import Foundation
 import UIKit
 
 class HabitsViewController: UIViewController {
@@ -32,6 +31,7 @@ class HabitsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor(named: "AlmostWhite")
         view.addSubview(collectionView)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem:UIBarButtonItem.SystemItem.add, target: self, action: #selector(self.didTapButton))
         
@@ -48,8 +48,12 @@ class HabitsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        collectionView.reloadData()
         navBarCustomization()
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(reloadCollectionView(notification:)),
+                                               name: Notification.Name("reloadData"),
+                                               object: nil)
         
     }
     
@@ -74,6 +78,11 @@ class HabitsViewController: UIViewController {
         present(newAwesomeNavigationBar, animated: true)
     }
     
+    
+    @objc func reloadCollectionView(notification: Notification) {
+        collectionView.reloadData()
+    }
+    
 }
 
 extension HabitsViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -86,6 +95,7 @@ extension HabitsViewController: UICollectionViewDataSource, UICollectionViewDele
         if indexPath.item ==  0 {
             let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "ProgressBarCell", for: indexPath) as! ProgressCollectionViewCell
             cell.layer.cornerRadius = 6
+            cell.setup()
             return cell
         } else {
             let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "Habit Cell", for: indexPath) as! HabitCollectionViewCell

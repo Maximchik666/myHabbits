@@ -44,7 +44,7 @@ class ProgressCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(percentageLabel)
         contentView.addSubview(progressBar)
-        
+                
         NSLayoutConstraint.activate([
         
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
@@ -58,12 +58,15 @@ class ProgressCollectionViewCell: UICollectionViewCell {
             progressBar.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -12),
             progressBar.bottomAnchor.constraint(equalTo: contentView.topAnchor, constant: 45),
         ])
-        
-        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setup(){
+        percentageLabel.text = "\(Int(HabitsStore.shared.todayProgress*100))%"
+        progressBar.progress = HabitsStore.shared.todayProgress
     }
     
 }

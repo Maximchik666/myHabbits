@@ -73,6 +73,7 @@ class HabitCollectionViewCell: UICollectionViewCell {
             
             habitNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             habitNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            habitNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,  constant: -68),
             
             timeLabel.topAnchor.constraint(equalTo: habitNameLabel.bottomAnchor, constant: 8),
             timeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
@@ -89,7 +90,7 @@ class HabitCollectionViewCell: UICollectionViewCell {
             checkImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -21),
             checkImage.heightAnchor.constraint(equalToConstant: 25),
             checkImage.widthAnchor.constraint(equalToConstant: 25),
-        
+            
         ])
     }
     
@@ -115,18 +116,18 @@ class HabitCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    
     @objc func clickButton () {
+        
+        NotificationCenter.default.post(name: Notification.Name("reloadData"), object: nil)
         
         let index = habitNameLabel.tag
         if  HabitsStore.shared.habits[index].isAlreadyTakenToday {
-            print("187947238905r")
         } else {
             checkButton.backgroundColor = UIColor(cgColor: checkButton.layer.borderColor!)
             HabitsStore.shared.track(HabitsStore.shared.habits[index])
             countLabel.text = "Счетчик: \(HabitsStore.shared.habits[index].trackDates.count)"
             checkImage.isHidden = false
         }
-            }
+    }
     
 }
