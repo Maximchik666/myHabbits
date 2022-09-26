@@ -7,9 +7,10 @@
 
 import UIKit
 
+/// Рутовый Экран для вкладки "Информация".
 class InfoViewController: UIViewController {
     
-    
+    /// Переменная для текста на экране.
     private let infoText : String = """
     Прохождение этапов, за которые за 21 день вырабатывается привычка, подчиняется следующему алгоритму:
 
@@ -27,6 +28,7 @@ class InfoViewController: UIViewController {
     6. На 90-й день соблюдения техники все лишнее из «прошлой жизни» перестает напоминать о себе, и человек, оглянувшись назад, осознает себя полностью обновившимся.
     """
     
+    /// ScrollView.
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
@@ -34,6 +36,7 @@ class InfoViewController: UIViewController {
         return scrollView
     }()
     
+    ///  Лейбл Заголовка.
     private lazy var label: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
@@ -42,6 +45,7 @@ class InfoViewController: UIViewController {
         return label
     }()
     
+    /// Лейбл содержащий текст для экрана.
     private lazy var text: UILabel = {
         let textLabel = UILabel()
         textLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -65,6 +69,7 @@ class InfoViewController: UIViewController {
         navBarCustomization()
     }
     
+    /// Cоздание Констрейнтов.
     private func addConstraints () {
         
         NSLayoutConstraint.activate([
@@ -97,7 +102,4 @@ class InfoViewController: UIViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         self.navigationItem.title = "Информация"
     }
-    
-    
-    
 }

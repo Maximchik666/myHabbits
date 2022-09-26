@@ -7,8 +7,10 @@
 
 import UIKit
 
+/// Ячейка привычки 
 class HabitCollectionViewCell: UICollectionViewCell {
     
+    /// Лейбл с названием Привычки.
     private lazy var habitNameLabel: UILabel = {
         let label  = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -19,6 +21,7 @@ class HabitCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    /// Лейбл со временем выполнения для привычки.
     private lazy var timeLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -29,6 +32,7 @@ class HabitCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    /// Лейбл со счетчиком кол-ва выполнений привычки.
     private lazy var countLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -39,6 +43,7 @@ class HabitCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    /// Кнопка выполнения привычки.
     private lazy var checkButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -48,6 +53,7 @@ class HabitCollectionViewCell: UICollectionViewCell {
         return button
     }()
     
+    /// Галочка, появляющаяся поверх кнопки выполнения привычки, в случае ее нажатия.
     private lazy var checkImage : UIImageView = {
         let img = UIImageView()
         img.image = UIImage(systemName: "checkmark")
@@ -62,13 +68,20 @@ class HabitCollectionViewCell: UICollectionViewCell {
         super .init(frame: frame)
         
         backgroundColor = .white
-        
         contentView.addSubview(timeLabel)
         contentView.addSubview(habitNameLabel)
         contentView.addSubview(countLabel)
         contentView.addSubview(checkButton)
         contentView.addSubview(checkImage)
-        
+        setupConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    /// Создание Констрейнтов.
+    private func setupConstraints () {
         NSLayoutConstraint.activate([
             
             habitNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
@@ -89,15 +102,11 @@ class HabitCollectionViewCell: UICollectionViewCell {
             checkImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             checkImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -21),
             checkImage.heightAnchor.constraint(equalToConstant: 25),
-            checkImage.widthAnchor.constraint(equalToConstant: 25),
-            
+            checkImage.widthAnchor.constraint(equalToConstant: 25)
         ])
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+    /// Функция настройки ячейки. Вызывается в HabitsViewController при настройке Сollection View.
     func setupCell(index: Int) {
         
         habitNameLabel.tag = index
@@ -116,10 +125,10 @@ class HabitCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    @objc func clickButton () {
-        
-        NotificationCenter.default.post(name: Notification.Name("reloadData"), object: nil)
-        
+    /// Функция проявления галочки, при нажатии на кнопку и отправка уведомления.
+        @objc func clickButton () {
+            
+        NotificationCenter.default.post(name: Notification.Name("reloadData"), object: nil) // Отправляем уведомление, о необходимости обновления view.
         let index = habitNameLabel.tag
         if  HabitsStore.shared.habits[index].isAlreadyTakenToday {
         } else {

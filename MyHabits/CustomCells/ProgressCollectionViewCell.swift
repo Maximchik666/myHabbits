@@ -7,8 +7,10 @@
 
 import UIKit
 
+/// Первая Ячейка CollectionView, c погресс баром.
 class ProgressCollectionViewCell: UICollectionViewCell {
     
+    /// "Лейбл Все Получится".
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -19,6 +21,7 @@ class ProgressCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    /// Лейбл с процентажем выполнения привычек за день.
     private lazy var percentageLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
@@ -29,6 +32,7 @@ class ProgressCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    /// Progress Bar.
     private lazy var progressBar: UIProgressView = {
         let progressBar = UIProgressView()
         progressBar.progress = HabitsStore.shared.todayProgress
@@ -44,15 +48,23 @@ class ProgressCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(percentageLabel)
         contentView.addSubview(progressBar)
-                
+        setupConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    /// Функция Добавления Констрейнтов.
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
-        
+            
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             titleLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 12),
-
+            
             percentageLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             percentageLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -12),
-
+            
             progressBar.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 38),
             progressBar.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 12),
             progressBar.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -12),
@@ -60,10 +72,7 @@ class ProgressCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+    /// Функция настройки ячейки, вызывается в HabitsViewController при настройке Сollection View.
     func setup(){
         percentageLabel.text = "\(Int(HabitsStore.shared.todayProgress*100))%"
         progressBar.progress = HabitsStore.shared.todayProgress

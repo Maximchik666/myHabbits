@@ -7,8 +7,10 @@
 
 import UIKit
 
+/// Рутовый контроллер вкладки "Привычки".
 class HabitsViewController: UIViewController {
     
+    ///  Лэйаут СollectionView.
     private lazy var layout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -17,6 +19,7 @@ class HabitsViewController: UIViewController {
         return layout
     }()
     
+    /// СollectionView.
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.layout)
         collectionView.delegate = self
@@ -33,31 +36,35 @@ class HabitsViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "AlmostWhite")
         view.addSubview(collectionView)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem:UIBarButtonItem.SystemItem.add, target: self, action: #selector(self.didTapButton))
-        
-        NSLayoutConstraint.activate([
-            
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-            
-        ])
+        setupConstraints()
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navBarCustomization()
-        
+        notificationCatcher()
+    }
+    
+    /// Создание обзервера на уведомление о необходимости обновления CollectionView.
+    private func notificationCatcher () {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(reloadCollectionView(notification:)),
                                                name: Notification.Name("reloadData"),
                                                object: nil)
-        
     }
     
+    /// Cоздание Констрейнтов.
+    private func setupConstraints (){
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
     
+    /// Настройка Navigation Bar.
     func navBarCustomization () {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         let appearance = UINavigationBarAppearance()
@@ -69,28 +76,30 @@ class HabitsViewController: UIViewController {
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         self.navigationItem.title = "Сегодня"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem:UIBarButtonItem.SystemItem.add, target: self, action: #selector(self.didTapButton))
         
     }
     
+    /// Функция перехода на экран создания привычки при нажатии на "+" в Navigation Bar.
     @objc private func didTapButton() {
-        
         let newAwesomeNavigationBar = UINavigationController(rootViewController: HabitViewController())
         present(newAwesomeNavigationBar, animated: true)
     }
     
-    
+    /// Функция обновления Collection View.
     @objc func reloadCollectionView(notification: Notification) {
         collectionView.reloadData()
     }
-    
 }
 
 extension HabitsViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    /// Задание количества ячеек в CollectionView.
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         HabitsStore.shared.habits.count + 1
     }
     
+    /// Размещение ячеек в CollectionView.
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.item ==  0 {
             let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "ProgressBarCell", for: indexPath) as! ProgressCollectionViewCell
@@ -105,6 +114,7 @@ extension HabitsViewController: UICollectionViewDataSource, UICollectionViewDele
         }
     }
     
+    /// Задаем размеры ячеек.
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if indexPath.item == 0 {
@@ -114,6 +124,7 @@ extension HabitsViewController: UICollectionViewDataSource, UICollectionViewDele
         }
     }
     
+    /// Создание перехода по тапу на ячейку привычки на HabitDetailsViewController.
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.item != 0 {
             let vc = HabitDetailsViewController()

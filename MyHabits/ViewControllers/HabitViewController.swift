@@ -9,8 +9,10 @@ import UIKit
 
 class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate {
     
-    var habitIndex: Int = 0
-    var calledForEditing = false
+    var habitIndex: Int = 0 // Переменная, в которую передается индекс привычки, согласно которому настраивается экран.
+    var calledForEditing = false // Произошел дли переход экран для настройки или для создания привычки.
+    
+    /// AlertController вызываемые при нажатии на кнопку удалить.
     let alertController = UIAlertController(title: "Удалить привычку", message: "Вы хотите удалить привычку?", preferredStyle: .alert)
     
     ///  Заголовок "Название" , над полем ввода названия привычки
@@ -22,7 +24,6 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
     
     /// Поле ввода названия привычки
     private lazy var nameTextField: UITextField = {
@@ -107,6 +108,7 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
         return button
     }()
     
+    // Контейнеры для хранения названия, времени и цвета привычки.
     private var name: String = ""
     private var date: Date = Date()
     private var color: UIColor = .systemRed
@@ -200,6 +202,7 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
         ])
     }
     
+    /// Функция настройки View, в случае если переход на контроллер произошел для настройки имеющейся привычки, а не создания новой.
     private func setupIfCalledForEditing () {
       
         if calledForEditing {
@@ -219,7 +222,7 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
         }
     }
     
-    ///  Функция, устанавливающая выбранное в DatePicker'e время, в качестве текста, изменяемой части загловка о выборе времени для привычки.
+    /// Функция, устанавливающая выбранное в DatePicker'e время, в качестве текста, изменяемой части загловка о выборе времени для привычки.
     @objc private func didSelect() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "hh:mm a"
@@ -228,7 +231,7 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
         print("устанавливающая выбранное в DatePicker'e время")
     }
     
-    ///  Функция, привязанная к кнопке "Отменить" в NavigationBar'e, закрывающая контроллер создания привычки.
+    /// Функция, привязанная к кнопке "Отменить" в NavigationBar'e, закрывающая контроллер создания привычки.
     @objc private func dismissSelf(){
         calledForEditing = false
         dismiss(animated: true, completion: nil)
@@ -242,7 +245,7 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
         present(colorPicker, animated: true)
     }
     
-    /// Сохрание текста из ТекстФилда в контейнер
+    /// Сохрание текста из ТекстФилда в контейнер.
     @objc func statusTextChanged(_ textField: UITextField){
         if let i = textField.text {
             self.name = i
@@ -250,18 +253,16 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
         }
     }
     
-    /// Функция сохранения привычки и убирания контроллера
+    /// Сохранение привычки и убирание контроллера.
     @objc private func saveHabbit() {
         
         if calledForEditing {
-            
-            print("Функция сохранения привычки и убирания контроллера")
             HabitsStore.shared.habits[habitIndex].name = self.name
             HabitsStore.shared.habits[habitIndex].date = self.date
             HabitsStore.shared.habits[habitIndex].color = self.color
             print("\(self.name) 3")
-        } else {
             
+        } else {
             let newHabit = Habit(name: self.name,
                                  date: self.date,
                                  color: self.color)
@@ -273,12 +274,12 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
         calledForEditing = false
         HabitsStore.shared.save()
         
-        NotificationCenter.default.post(name: Notification.Name("reloadData"), object: nil)
-        NotificationCenter.default.post(name: Notification.Name("hideDetailView"), object: nil)
+        NotificationCenter.default.post(name: Notification.Name("reloadData"), object: nil) // Отправка уведомления о необходимоти обновления CollectionView.
+        NotificationCenter.default.post(name: Notification.Name("hideDetailView"), object: nil)// Отправка уведомления, о необходимости пропустить HabitDetailsViewController.
         dismiss(animated: true, completion: nil)
     }
     
-    /// Функция изменения цвета кнопки вызова ColorPicker'a, соответственно выбранному цвету и сохрание выбранного цвета в контейнер
+    /// Функция изменения цвета кнопки вызова ColorPicker'a, соответственно выбранному цвету и сохрание выбранного цвета в контейнер.
     func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
         let color = viewController.selectedColor
         colorPicker.backgroundColor = color
@@ -286,6 +287,7 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
         print("Функция изменения цвета кнопки вызова ColorPicker'a")
     }
     
+    /// Удаление привычки и настройка AlertController, вызываемого при нажатии кнопки "Удалить Привычку".
     @objc func deleteHabbit () {
         alertController.addAction(UIAlertAction(title: "Отмена", style: .default, handler: { _ in
         }))
@@ -295,7 +297,6 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
             NotificationCenter.default.post(name: Notification.Name("hideDetailView"), object: nil)
             self.navigationController?.pushViewController(HabitsViewController(), animated: true)
         }))
-        
         self.present(alertController, animated: true, completion: nil)
     }
 }
