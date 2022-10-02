@@ -128,7 +128,7 @@ class HabitCollectionViewCell: UICollectionViewCell {
     /// Функция проявления галочки, при нажатии на кнопку и отправка уведомления.
         @objc func clickButton () {
             
-        NotificationCenter.default.post(name: Notification.Name("addCell"), object: nil) // Отправляем уведомление, о необходимости обновления view.
+        NotificationCenter.default.post(name: Notification.Name("reloadProgressCell"), object: nil) // Отправляем уведомление, о необходимости обновления view.
         let index = habitNameLabel.tag
         if  HabitsStore.shared.habits[index].isAlreadyTakenToday {
         } else {

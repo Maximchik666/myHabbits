@@ -63,6 +63,10 @@ class HabitsViewController: UIViewController {
                                                name: Notification.Name("deleteCell"),
                                                object: nil)
         
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(reloadProgressCell(notification:)),
+                                               name: Notification.Name("reloadProgressCell"),
+                                               object: nil)
         
     }
     
@@ -98,9 +102,9 @@ class HabitsViewController: UIViewController {
         present(newAwesomeNavigationBar, animated: true)
     }
     
-    /// Функция обновления Collection View.
+    /// Функции обновления Collection View.
     @objc func addCell (notification: Notification) {
-        
+        print("adding Cell")
         let indexPath = IndexPath(item: HabitsStore.shared.habits.count, section: 0)
         let indexPathOfProgressCell = IndexPath(item: 0, section: 0)
         self.collectionView.performBatchUpdates {
@@ -109,19 +113,26 @@ class HabitsViewController: UIViewController {
         }
     }
     
-    @objc func deleteCell (notification: Notification) {
-        
-        let indexPath = IndexPath(item: ((notification.object as! Int)+1), section: 0)
+    @objc func reloadProgressCell (notification: Notification){
         let indexPathOfProgressCell = IndexPath(item: 0, section: 0)
         self.collectionView.performBatchUpdates {
-            self.collectionView.deleteItems(at: [indexPath])
             self.collectionView.reloadItems(at: [indexPathOfProgressCell])
         }
     }
     
+    @objc func deleteCell (notification: Notification) {
+        
+        let indexPath = IndexPath(item: ((notification.object as! Int)+1), section: 0)
+        print("delete \((notification.object as! Int)+1)")
+        let indexPathOfProgressCell = IndexPath(item: 0, section: 0)
+        self.collectionView.performBatchUpdates {
+            self.collectionView.deleteItems(at: [indexPath])
+            self.collectionView.reloadItems(at: [indexPathOfProgressCell])
+            NotificationCenter.default.removeObserver(self, name:  NSNotification.Name("deleteCell"), object: nil)
+        }
+    }
+    
 }
-
-
 
 
 extension HabitsViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

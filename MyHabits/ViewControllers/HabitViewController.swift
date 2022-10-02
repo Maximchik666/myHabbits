@@ -228,7 +228,6 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
         dateFormatter.dateFormat = "hh:mm a"
         timePickerLabel.text = "\(dateFormatter.string(from: timePicker.date))"
         self.date = timePicker.date
-        print("устанавливающая выбранное в DatePicker'e время")
     }
     
     /// Функция, привязанная к кнопке "Отменить" в NavigationBar'e, закрывающая контроллер создания привычки.
@@ -249,7 +248,6 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
     @objc func statusTextChanged(_ textField: UITextField){
         if let i = textField.text {
             self.name = i
-            print("Сохрание текста из ТекстФилда в контейнер")
         }
     }
     
@@ -284,7 +282,6 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
         let color = viewController.selectedColor
         colorPicker.backgroundColor = color
         self.color = color
-        print("Функция изменения цвета кнопки вызова ColorPicker'a")
     }
     
     /// Удаление привычки и настройка AlertController, вызываемого при нажатии кнопки "Удалить Привычку".
