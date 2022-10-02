@@ -114,7 +114,7 @@ class HabitCollectionViewCell: UICollectionViewCell {
         habitNameLabel.text = HabitsStore.shared.habits[index].name
         checkButton.layer.borderColor = HabitsStore.shared.habits[index].color.cgColor
         countLabel.text = "Счетчик: \(HabitsStore.shared.habits[index].trackDates.count)"
-        timeLabel.text = "Каждый день в \(HabitsStore.shared.habits[index].dateString)"
+        timeLabel.text = HabitsStore.shared.habits[index].dateString
         
         if HabitsStore.shared.habits[index].isAlreadyTakenToday {
             checkButton.backgroundColor = UIColor(cgColor: HabitsStore.shared.habits[index].color.cgColor)
@@ -128,7 +128,7 @@ class HabitCollectionViewCell: UICollectionViewCell {
     /// Функция проявления галочки, при нажатии на кнопку и отправка уведомления.
         @objc func clickButton () {
             
-        NotificationCenter.default.post(name: Notification.Name("reloadData"), object: nil) // Отправляем уведомление, о необходимости обновления view.
+        NotificationCenter.default.post(name: Notification.Name("addCell"), object: nil) // Отправляем уведомление, о необходимости обновления view.
         let index = habitNameLabel.tag
         if  HabitsStore.shared.habits[index].isAlreadyTakenToday {
         } else {

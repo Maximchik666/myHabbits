@@ -274,7 +274,7 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
         calledForEditing = false
         HabitsStore.shared.save()
         
-        NotificationCenter.default.post(name: Notification.Name("reloadData"), object: nil) // Отправка уведомления о необходимоти обновления CollectionView.
+        NotificationCenter.default.post(name: Notification.Name("addCell"), object: nil) // Отправка уведомления о необходимоти обновления CollectionView.
         NotificationCenter.default.post(name: Notification.Name("hideDetailView"), object: nil)// Отправка уведомления, о необходимости пропустить HabitDetailsViewController.
         dismiss(animated: true, completion: nil)
     }
@@ -293,7 +293,7 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
         }))
         alertController.addAction(UIAlertAction(title: "Удалить", style: .default, handler: { _ in
             HabitsStore.shared.habits.remove(at: self.habitIndex)
-            NotificationCenter.default.post(name: Notification.Name("reloadData"), object: nil)
+            NotificationCenter.default.post(name: Notification.Name("deleteCell"), object: self.habitIndex)
             NotificationCenter.default.post(name: Notification.Name("hideDetailView"), object: nil)
             self.dismiss(animated: true, completion: nil)
         }))

@@ -54,9 +54,16 @@ class HabitsViewController: UIViewController {
     /// Создание обзервера на уведомление о необходимости обновления CollectionView.
     private func notificationCatcher () {
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(reloadCollectionView(notification:)),
-                                               name: Notification.Name("reloadData"),
+                                               selector: #selector(addCell(notification:)),
+                                               name: Notification.Name("addCell"),
                                                object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(deleteCell(notification:)),
+                                               name: Notification.Name("deleteCell"),
+                                               object: nil)
+        
+        
     }
     
     /// Cоздание Констрейнтов.
@@ -92,7 +99,7 @@ class HabitsViewController: UIViewController {
     }
     
     /// Функция обновления Collection View.
-    @objc func reloadCollectionView(notification: Notification) {
+    @objc func addCell (notification: Notification) {
         
         let indexPath = IndexPath(item: HabitsStore.shared.habits.count, section: 0)
         let indexPathOfProgressCell = IndexPath(item: 0, section: 0)
@@ -101,7 +108,21 @@ class HabitsViewController: UIViewController {
             self.collectionView.reloadItems(at: [indexPathOfProgressCell])
         }
     }
+    
+    @objc func deleteCell (notification: Notification) {
+        
+        let indexPath = IndexPath(item: ((notification.object as! Int)+1), section: 0)
+        let indexPathOfProgressCell = IndexPath(item: 0, section: 0)
+        self.collectionView.performBatchUpdates {
+            self.collectionView.deleteItems(at: [indexPath])
+            self.collectionView.reloadItems(at: [indexPathOfProgressCell])
+        }
+    }
+    
 }
+
+
+
 
 extension HabitsViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
