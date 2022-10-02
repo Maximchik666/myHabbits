@@ -72,7 +72,7 @@ class HabitDetailsViewController: UIViewController {
     
     /// Реализация пропускания текущего контроллера, в случе перехода на него, после удаления или изменения привычки.
     @objc func hideDetailView(notification: Notification ){
-        self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: false)
         NotificationCenter.default.removeObserver(self)
     }
 }
