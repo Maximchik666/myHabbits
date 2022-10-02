@@ -93,10 +93,12 @@ class HabitsViewController: UIViewController {
     
     /// Функция обновления Collection View.
     @objc func reloadCollectionView(notification: Notification) {
- 
+        
         let indexPath = IndexPath(item: HabitsStore.shared.habits.count, section: 0)
+        let indexPathOfProgressCell = IndexPath(item: 0, section: 0)
         self.collectionView.performBatchUpdates {
             self.collectionView.insertItems(at: [indexPath])
+            self.collectionView.reloadItems(at: [indexPathOfProgressCell])
         }
     }
 }
