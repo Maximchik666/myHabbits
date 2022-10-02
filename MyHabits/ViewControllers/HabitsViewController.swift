@@ -46,6 +46,11 @@ class HabitsViewController: UIViewController {
         notificationCatcher()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationItem.title = ""
+    }
+    
     /// Создание обзервера на уведомление о необходимости обновления CollectionView.
     private func notificationCatcher () {
         NotificationCenter.default.addObserver(self,
@@ -88,7 +93,11 @@ class HabitsViewController: UIViewController {
     
     /// Функция обновления Collection View.
     @objc func reloadCollectionView(notification: Notification) {
-        collectionView.reloadData()
+ 
+        let indexPath = IndexPath(item: HabitsStore.shared.habits.count, section: 0)
+        self.collectionView.performBatchUpdates {
+            self.collectionView.insertItems(at: [indexPath])
+        }
     }
 }
 
@@ -132,5 +141,4 @@ extension HabitsViewController: UICollectionViewDataSource, UICollectionViewDele
             navigationController?.pushViewController(vc, animated: true)
         }
     }
-    
 }

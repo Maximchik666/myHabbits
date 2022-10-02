@@ -63,6 +63,7 @@ class InfoViewController: UIViewController {
         scrollView.addSubview(text)
         addConstraints()
     }
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

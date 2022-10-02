@@ -295,7 +295,7 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
             HabitsStore.shared.habits.remove(at: self.habitIndex)
             NotificationCenter.default.post(name: Notification.Name("reloadData"), object: nil)
             NotificationCenter.default.post(name: Notification.Name("hideDetailView"), object: nil)
-            self.navigationController?.pushViewController(HabitsViewController(), animated: true)
+            self.dismiss(animated: true, completion: nil)
         }))
         self.present(alertController, animated: true, completion: nil)
     }
