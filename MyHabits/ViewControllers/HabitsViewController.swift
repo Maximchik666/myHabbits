@@ -43,7 +43,7 @@ class HabitsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navBarCustomization()
-        notificationCatcher()
+        notificationCatchers()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -52,7 +52,8 @@ class HabitsViewController: UIViewController {
     }
     
     /// Создание обзервера на уведомление о необходимости обновления CollectionView.
-    private func notificationCatcher () {
+    private func notificationCatchers () {
+        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(addCell(notification:)),
                                                name: Notification.Name("addCell"),
@@ -101,10 +102,11 @@ class HabitsViewController: UIViewController {
         let newAwesomeNavigationBar = UINavigationController(rootViewController: HabitViewController())
         newAwesomeNavigationBar.modalPresentationStyle = .fullScreen
         present(newAwesomeNavigationBar, animated: true)
+        
     }
     
     /// Функции обновления Collection View.
-    @objc func addCell (notification: Notification) {
+    @objc private func addCell (notification: Notification) {
         print("adding Cell")
         let indexPath = IndexPath(item: HabitsStore.shared.habits.count, section: 0)
         let indexPathOfProgressCell = IndexPath(item: 0, section: 0)
@@ -115,15 +117,14 @@ class HabitsViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name:  NSNotification.Name("addCell"), object: nil)
     }
     
-    @objc func reloadProgressCell (notification: Notification){
+    @objc private func reloadProgressCell (notification: Notification){
         let indexPathOfProgressCell = IndexPath(item: 0, section: 0)
         self.collectionView.performBatchUpdates {
         self.collectionView.reloadItems(at: [indexPathOfProgressCell])
         }
-        
     }
     
-    @objc func deleteCell (notification: Notification) {
+    @objc private func deleteCell (notification: Notification) {
         
         let indexPath = IndexPath(item: ((notification.object as! Int)+1), section: 0)
         print("delete \((notification.object as! Int)+1)")
