@@ -192,6 +192,8 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
             ///DatePicker
             timePicker.topAnchor.constraint(equalTo: timeDescriptionLabel.bottomAnchor, constant: 16),
             timePicker.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+         //   timePicker.widthAnchor.constraint(equalToConstant: 320),
+        //    timePicker.heightAnchor.constraint(equalToConstant: 216),
             
             /// Кнопка удаления привычки внизу экрана.
             deleteHabbitButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),

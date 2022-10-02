@@ -99,6 +99,7 @@ class HabitsViewController: UIViewController {
     /// Функция перехода на экран создания привычки при нажатии на "+" в Navigation Bar.
     @objc private func didTapButton() {
         let newAwesomeNavigationBar = UINavigationController(rootViewController: HabitViewController())
+        newAwesomeNavigationBar.modalPresentationStyle = .fullScreen
         present(newAwesomeNavigationBar, animated: true)
     }
     
@@ -111,13 +112,15 @@ class HabitsViewController: UIViewController {
             self.collectionView.insertItems(at: [indexPath])
             self.collectionView.reloadItems(at: [indexPathOfProgressCell])
         }
+        NotificationCenter.default.removeObserver(self, name:  NSNotification.Name("addCell"), object: nil)
     }
     
     @objc func reloadProgressCell (notification: Notification){
         let indexPathOfProgressCell = IndexPath(item: 0, section: 0)
         self.collectionView.performBatchUpdates {
-            self.collectionView.reloadItems(at: [indexPathOfProgressCell])
+        self.collectionView.reloadItems(at: [indexPathOfProgressCell])
         }
+        
     }
     
     @objc func deleteCell (notification: Notification) {
@@ -128,12 +131,10 @@ class HabitsViewController: UIViewController {
         self.collectionView.performBatchUpdates {
             self.collectionView.deleteItems(at: [indexPath])
             self.collectionView.reloadItems(at: [indexPathOfProgressCell])
-            NotificationCenter.default.removeObserver(self, name:  NSNotification.Name("deleteCell"), object: nil)
         }
+        NotificationCenter.default.removeObserver(self, name:  NSNotification.Name("deleteCell"), object: nil)
     }
-    
 }
-
 
 extension HabitsViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
