@@ -1,13 +1,11 @@
-# Дипломная работа “Трекер полезных привычек”
+# myHabbit
 
 
-- Адаптивная верстка экранов;
-
-- Различные навигационные паттерны в iOS;
-
-- Использование и настройка визуальных компонентов;
-
-- Использование UITableView, UICollectionView и кастомных ячеек.
+- UIKit;
+- Adaptive Layout;
+- MVC
+- Coordinator Pattern
+- CoreAnimation
 
   <p align="center" width="100%">
     <img width="75%" src="https://raw.githubusercontent.com/netology-code/iosui-diplom/main/Assets/promo.png"> 
