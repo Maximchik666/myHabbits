@@ -1,6 +1,6 @@
 # myHabbit
 
- <p align="left">  </p> </div>
+ <p align="left">  </p> 
 - UIKit;
 - Adaptive Layout;
 - MVC
