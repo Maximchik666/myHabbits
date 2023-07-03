@@ -6,8 +6,8 @@ The application is designed to assist users in forming the habits they need. You
  
 <p align="left">  </p> </div>
 
- UIKit
- Adaptive Layout
- MVC
- Coordinator Pattern
+ UIKit -
+ Adaptive Layout -
+ MVC -
+ Coordinator Pattern -
  CoreAnimation
